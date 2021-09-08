@@ -10,3 +10,7 @@ Lifecycle actions:
     clean -
     checking dependencies
     mvn dependency:analyze
+
+    creating remote branch
+    git add maven
+
