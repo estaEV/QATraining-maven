@@ -1,5 +1,5 @@
 Lifecycle actions:
-    validate - validate the project is correct and all necessary information is available
+    validate - validate the project is correct and all necessary information is available. verifies pom files
     compile - compile the source code of the project
     test - test the compiled source code using a suitable unit testing framework. These tests should not require the code be packaged or deployed
     package - take the compiled code and package it in its distributable format, such as a JAR.
@@ -13,4 +13,21 @@ Lifecycle actions:
 
     creating remote branch
     git add maven
+
+Project Object Model:
+    simple / super / effective (combined both) POM
+
+Dependency scope:
+    Compile - default / packaged in the jar file
+    Provided
+    Runtime only at runtime, but not compile
+    Test
+    System - same as compile, but we provide the path to the dependency
+
+Maven repositories - its where the dependencies are stored
+
+<dependencyManagement> / <pluginManagement>
+ - dependencies/plugin from the parent pom are not available in the child pom's. They have to me explicitly declarated in the child pom, so they can be available.
+
+Profiles: customized build configurations. For example: skip the test part: mvn -P skip-test clean install
 
