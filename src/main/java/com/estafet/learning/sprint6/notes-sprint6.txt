@@ -31,3 +31,15 @@ Maven repositories - its where the dependencies are stored
 
 Profiles: customized build configurations. For example: skip the test part: mvn -P skip-test clean install
 
+----------------- jUnit -----------------
+- jUnit and jupiter have different annotations. keep an eye from which library have you imported @Test
+     junit 4 - beforeClass, afterClass, before, after
+     junit 5 (jupiter) - beforeAll, afterAll, beforeEach, afterEach
+
+- @DisplayName is cool and works for the class also
+- in assertEquals the third parameter (msg when the test is failed) is generated even when the test passes. if we wrap it in a lambda its gonna be triggered only when the test fails
+- @Nested - we can have nested class inside which we can place tests so they can be groped in the report
+- assertAll() - a series of assertions in one test method, that are collectively testing one assertion. It prevents short circuiting. For ex.: the first assertion fails and if the second assertion also fails, that is not showed in the error msg.
+- @Tag - edit configuration - run tests with specific tag
+- skipping tests compile and/or run with mvn commands - mvn -DskipTests package
+- skip building the test folder using a pom.xml property - <maven.test.skip>true</maven.test.skip>
