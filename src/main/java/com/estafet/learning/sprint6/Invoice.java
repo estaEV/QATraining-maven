@@ -1,6 +1,8 @@
 package com.estafet.learning.sprint6;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Map;
 
 abstract public class Invoice implements TradeInvoiceCalculations {
@@ -183,7 +185,9 @@ abstract public class Invoice implements TradeInvoiceCalculations {
                             result.append(field.getName());
                             result.append(": ");
                             //requires access to private field:
-                            result.append(String.format("%.2f", field.get(this)));
+                            double roundedToTwoPlaces = new BigDecimal((Double) field.get(this))
+                                    .setScale(2, RoundingMode.HALF_UP).doubleValue();
+                            result.append(roundedToTwoPlaces);
                             result.append(newLine);
                         }
                         else {continue;}
