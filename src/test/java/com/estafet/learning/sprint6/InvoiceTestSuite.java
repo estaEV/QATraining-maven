@@ -1,12 +1,17 @@
 package com.estafet.learning.sprint6;
-import org.junit.jupiter.api.extension.ExtendWith;
+
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.platform.suite.api.SuiteDisplayName;
 import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
 
+/**
+ * The JUnitPlatformSuiteDemo will discover and run all tests in the example package and its subpackages.
+ * By default, it will only include test classes whose names either begin with Test or end with Test or Tests.
+ */
 
-@RunWith(Suite.class)
-@Suite.SuiteClasses({TradeInvoiceTest.class})
-
+@RunWith(org.junit.platform.runner.JUnitPlatform.class)
+@SuiteDisplayName("JUnit Platform Suite Demo")
+@SelectPackages("com.estafet.learning.sprint6")
 public class InvoiceTestSuite {
 
 }
