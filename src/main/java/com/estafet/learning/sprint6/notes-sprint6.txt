@@ -43,3 +43,6 @@ Profiles: customized build configurations. For example: skip the test part: mvn 
 - @Tag - edit configuration - run tests with specific tag
 - skipping tests compile and/or run with mvn commands - mvn -DskipTests package
 - skip building the test folder using a pom.xml property - <maven.test.skip>true</maven.test.skip>
+- @RunWith annotation has been replaced by the more powerful @ExtendWith but can be still used in JUnit 5 for the sake of backward compatability
+
+dependency injection/ inversion of control / test double

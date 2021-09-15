@@ -10,6 +10,7 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) throws DiscountNotApplicableException {
+
         Scanner sc = new Scanner(System.in);
         List<String> menu = new ArrayList<>();
         System.out.println("sprint5");
