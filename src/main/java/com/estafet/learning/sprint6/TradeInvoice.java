@@ -70,11 +70,11 @@ public class TradeInvoice extends Invoice {
         double passDiscountedAmount = 0;
         double passTotalAmountBeforeVATWithDiscount = getTotalAmountBeforeVAT();
 
-        if (passTotalAmountBeforeVATWithDiscount < 500 ) {
+        if (passTotalAmountBeforeVATWithDiscount < 100 ) {
             throw new DiscountNotApplicableException("Total amount not reached for the particular discount. Minimum amount is 1000. Current amount: " + passTotalAmountBeforeVATWithDiscount);
         }
 
-        if (passTotalAmountBeforeVATWithDiscount < 1500 ) {
+        if (passTotalAmountBeforeVATWithDiscount < 120 ) {
             throw new ShippingNotSupported("Shipping is not supported for the following amount: " + passTotalAmountBeforeVATWithDiscount);
         }
 
@@ -97,7 +97,7 @@ public class TradeInvoice extends Invoice {
     public double additionalDiscount() {
         int randAdditionalDiscountPercent = (rand.nextInt(4 - 1) + 1) * 10;
         //randAdditionalDiscountPercent = 50;
-        System.out.println("\nAdditional discount percent from interface TradeInvoiceCalculations is: " + randAdditionalDiscountPercent + "\n");
+        //System.out.println("\nAdditional discount percent from interface TradeInvoiceCalculations is: " + randAdditionalDiscountPercent + "\n");
         return randAdditionalDiscountPercent;
     }
 
@@ -149,7 +149,7 @@ public class TradeInvoice extends Invoice {
             e.printStackTrace();
         }
         finally {
-            System.out.println("Finally still exist in try with resources block.");
+            // System.out.println("Finally still exist in try with resources block.");
 /*            try {
                 if (bw != null)
                     bw.close();
@@ -176,9 +176,7 @@ public class TradeInvoice extends Invoice {
             double passTotalAmountAfterVAT = (getTotalAmountBeforeVATWithDiscount() != 0 ? addVAT.apply(getTotalAmountBeforeVATWithDiscount()) : addVAT.apply(getTotalAmountBeforeVAT()));
             setTotalAmountAfterVAT(passTotalAmountAfterVAT);
 
-            // this.calculateInvoiceWithVAT();
-            // tradeInvoiceObjectsList.add(this);
-            this.printObjectProperties();
+            //this.printObjectProperties();
             try {
                 this.saveInvoiceObjectToFile();
             } catch (Exception e) {

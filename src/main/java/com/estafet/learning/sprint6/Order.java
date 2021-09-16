@@ -240,7 +240,7 @@ public class Order implements com.estafet.learning.sprint6.OrderCalculations {
             e.printStackTrace();
         }
         calculateOrderAmountWithVAT();
-        printObjectProperties();
+        //printObjectProperties();
         try {
             saveOrderObjectToFile();
         } catch (IOException e) {

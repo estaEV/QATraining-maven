@@ -142,14 +142,26 @@ public class TradeInvoiceTest {
                 );
             }
 
-/*
+
         @Test
         @DisplayName(" Test DiscountNotApplicableException")
         void testDiscountNotApplicableException() {
-            Throwable error = assertThrows
-        }
-*/
+            objectTradeInvoice.setTotalAmountBeforeVAT(90);
+            // asserting that the correct exception is thrown
+            Throwable error  = assertThrows("no DiscountNotApplicableException exception is thrown", DiscountNotApplicableException.class, () -> objectTradeInvoice.cutThemSomeSlack(objectTradeInvoice.additionalDiscount()));
+            // asserting that the exception msg is the correct one
+            assertEquals("Total amount not reached for the particular discount. Minimum amount is 1000. Current amount: " + objectTradeInvoice.getTotalAmountBeforeVAT(), error.getMessage());
 
+        }
+
+
+            @Test
+            @DisplayName(" Test ShippingNotSupportedException")
+            void testShippingNotSupportedException() {
+                objectTradeInvoice.setTotalAmountBeforeVAT(110);
+                Throwable error  = assertThrows("no ShippingNotSupportedException exception is thrown", ShippingNotSupported.class, () -> objectTradeInvoice.cutThemSomeSlack(objectTradeInvoice.additionalDiscount()));
+                assertEquals("Shipping is not supported for the following amount: " + objectTradeInvoice.getTotalAmountBeforeVAT(), error.getMessage());
+            }
 
         }
     }
