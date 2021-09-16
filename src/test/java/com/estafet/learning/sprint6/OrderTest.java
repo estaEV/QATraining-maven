@@ -5,26 +5,30 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.*;
 
+// JUnit 4
+//import org.junit.Test;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-@DisplayName("TradeInvoiceTest class")
-public class TradeInvoiceTest {
+@DisplayName("OrderTest class")
+public class OrderTest {
 
-    Invoice objectTradeInvoice;
+    Order objectOrder;
     Double[] doubleObjects;
 
     @BeforeEach
     public void init() throws IOException {
-        objectTradeInvoice = new TradeInvoice();
-        objectTradeInvoice.ExecuteActions();
-        doubleObjects = new Double[]{objectTradeInvoice.getTotalAmountBeforeVAT(), objectTradeInvoice.getTotalAmountAfterVAT(),
-                objectTradeInvoice.getTotalAmountBeforeVATWithDiscount(), objectTradeInvoice.additionalDiscount()};
+        objectOrder = new Order();
+        objectOrder.ExecuteActionsOnOrder();
+        doubleObjects = new Double[]{objectOrder.getOrderTotalAmountBeforeVAT(), objectOrder.getOrderTotalAmountAfterVAT(),
+                objectOrder.getOrderTotalAmountBeforeVATWithDiscount(), objectOrder.getOrderDiscountedAmount()};
     }
 
     @Nested
@@ -38,19 +42,19 @@ public class TradeInvoiceTest {
             @Test
             @DisplayName("Check if clientDetails length is 36")
             void checkIfClientDetailsLengthIs36() {
-                assertEquals(36, objectTradeInvoice.getClientDetails().length());
+                assertEquals(36, objectOrder.getClientDetails().length());
             }
 
             @Test
             @DisplayName("Check clientDetails for whitespaces")
             void checkClientDetailsForWhitespaces() {
-                assertFalse(objectTradeInvoice.getClientDetails().contains(" "));
+                assertFalse(objectOrder.getClientDetails().contains(" "));
             }
 
             @Test
             @DisplayName("Check clientDetails for uppercase chars")
             void checkClientDetailsForUppercaseChars() {
-                assertFalse(Pattern.compile("[A-Z]").matcher(objectTradeInvoice.getClientDetails()).find());
+                assertFalse(Pattern.compile("[A-Z]").matcher(objectOrder.getClientDetails()).find());
             }
         }
 
@@ -76,17 +80,17 @@ public class TradeInvoiceTest {
             @DisplayName("Test invoiceNumber field")
             void testInvoiceNumberField() {
                 assertAll(
-                        () -> assertNotNull(objectTradeInvoice.getInvoiceNumber()),
-                        () -> assertNotEquals(0, String.valueOf(objectTradeInvoice.getInvoiceNumber()).length()),
-                        () -> assertEquals(5, String.valueOf(objectTradeInvoice.getInvoiceNumber()).length()),
-                        () -> assertTrue(19000 <= objectTradeInvoice.getInvoiceNumber() && objectTradeInvoice.getInvoiceNumber() <= 27000)
+                        () -> assertNotNull(objectOrder.getOrderNumber()),
+                        () -> assertNotEquals(0, String.valueOf(objectOrder.getOrderNumber()).length()),
+                        () -> assertEquals(5, String.valueOf(objectOrder.getOrderNumber()).length()),
+                        () -> assertTrue(19000 <= objectOrder.getOrderNumber() && objectOrder.getOrderNumber() <= 27000)
                 );
             }
 
             @Test
             @DisplayName("Test if each item of the article list has a price")
             void testIfEachItemOfTheArticleListHasAPrice() {
-                Map<String, Double> articles = objectTradeInvoice.getArticles();
+                Map<String, Double> articles = objectOrder.getItems();
                 for (Double value : articles.values()) {
                     assertNotNull(value);
                     assertNotEquals(0, value);
@@ -96,8 +100,8 @@ public class TradeInvoiceTest {
             @Test
             @DisplayName("Test articles field")
             void testArticlesField() {
-                assertNotNull(objectTradeInvoice.getArticles());
-                assertTrue(3 <= objectTradeInvoice.getArticles().size() && objectTradeInvoice.getArticles().size() <= 8);
+                assertNotNull(objectOrder.getItems());
+                assertTrue(3 <= objectOrder.getItems().size() && objectOrder.getItems().size() <= 8);
             }
 
 
@@ -105,8 +109,8 @@ public class TradeInvoiceTest {
             @DisplayName("Test totalAmountBeforeVAT field")
             void testTotalAmountBeforeVatField() {
                 assertAll(
-                        () -> assertNotNull(objectTradeInvoice.getTotalAmountBeforeVAT()),
-                        () -> assertNotEquals(0, objectTradeInvoice.getTotalAmountBeforeVAT())
+                        () -> assertNotNull(objectOrder.getOrderTotalAmountBeforeVAT()),
+                        () -> assertNotEquals(0, objectOrder.getOrderTotalAmountBeforeVAT())
                 );
             }
 
@@ -114,8 +118,8 @@ public class TradeInvoiceTest {
             @DisplayName("Test totalAmountAfterVAT field")
             void totalAmountAfterVAT() {
                 assertAll(
-                        () -> assertNotNull(objectTradeInvoice.getTotalAmountAfterVAT()),
-                        () -> assertNotEquals(0, objectTradeInvoice.getTotalAmountAfterVAT())
+                        () -> assertNotNull(objectOrder.getOrderTotalAmountAfterVAT()),
+                        () -> assertNotEquals(0, objectOrder.getOrderTotalAmountAfterVAT())
                 );
             }
         }
@@ -128,8 +132,8 @@ public class TradeInvoiceTest {
             @DisplayName("Test discountedAmount field")
             void testDiscountedAmountField() {
                 assertAll(
-                        () -> assertNotNull(objectTradeInvoice.getDiscountedAmount()),
-                        () -> assertNotEquals(0, objectTradeInvoice.getDiscountedAmount())
+                        () -> assertNotNull(objectOrder.getOrderDiscountedAmount()),
+                        () -> assertNotEquals(0, objectOrder.getOrderDiscountedAmount())
                 );
             }
 
@@ -137,8 +141,8 @@ public class TradeInvoiceTest {
             @DisplayName("Test totalAmountBeforeVATWithDiscount field")
             void testTotalAmountBeforeVATWithDiscountField() {
                 assertAll(
-                        () -> assertNotNull(objectTradeInvoice.getTotalAmountBeforeVATWithDiscount()),
-                        () -> assertNotEquals(0, objectTradeInvoice.getTotalAmountBeforeVATWithDiscount())
+                        () -> assertNotNull(objectOrder.getOrderTotalAmountBeforeVATWithDiscount()),
+                        () -> assertNotEquals(0, objectOrder.getOrderTotalAmountBeforeVATWithDiscount())
                 );
             }
 

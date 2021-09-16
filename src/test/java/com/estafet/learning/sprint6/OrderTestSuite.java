@@ -12,7 +12,7 @@ import org.junit.runner.RunWith;
 @RunWith(org.junit.platform.runner.JUnitPlatform.class)
 @SuiteDisplayName("JUnit Platform Suite Demo")
 //@SelectPackages("com.estafet.learning.sprint6")
-@SelectClasses({TradeInvoiceTest.class})
-public class InvoiceTestSuite {
+@SelectClasses({OrderTest.class})
+public class OrderTestSuite {
 
 }

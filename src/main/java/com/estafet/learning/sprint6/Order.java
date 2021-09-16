@@ -23,7 +23,7 @@ public class Order implements com.estafet.learning.sprint6.OrderCalculations {
     private double orderDiscountedAmount;
     private double orderTotalAmountBeforeVATWithDiscount;
     private double orderTotalAmountAfterVAT;
-    private double orderInvoiceNumber;
+    private int orderInvoiceNumber;
     private List<Order> orderObjectsListLocal = new ArrayList<>();
 
 
@@ -108,11 +108,11 @@ public class Order implements com.estafet.learning.sprint6.OrderCalculations {
         this.orderTotalAmountAfterVAT = orderTotalAmountAfterVAT;
     }
 
-    public double getOrderInvoiceNumber() {
+    public int getOrderInvoiceNumber() {
         return orderInvoiceNumber;
     }
 
-    public void setOrderInvoiceNumber(double orderInvoiceNumber) {
+    public void setOrderInvoiceNumber(int orderInvoiceNumber) {
         this.orderInvoiceNumber = orderInvoiceNumber;
     }
 
