@@ -1,10 +1,5 @@
 package com.estafet.learning.sprint6;
 
-import com.estafet.learning.sprint6.DiscountNotApplicableException;
-import org.junit.runner.JUnitCore;
-import org.junit.runner.Result;
-import org.junit.runner.notification.Failure;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

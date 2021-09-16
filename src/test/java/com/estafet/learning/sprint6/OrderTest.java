@@ -101,6 +101,10 @@ public class OrderTest {
             @DisplayName("Test articles field")
             void testArticlesField() {
                 assertNotNull(objectOrder.getItems());
+                Map<String, Double> items = objectOrder.getItems();
+                for (String s : items.keySet()) {
+                    System.out.println(s);
+                }
                 assertTrue(3 <= objectOrder.getItems().size() && objectOrder.getItems().size() <= 8);
             }
 
@@ -145,15 +149,6 @@ public class OrderTest {
                         () -> assertNotEquals(0, objectOrder.getOrderTotalAmountBeforeVATWithDiscount())
                 );
             }
-
-/*
-        @Test
-        @DisplayName(" Test DiscountNotApplicableException")
-        void testDiscountNotApplicableException() {
-            Throwable error = assertThrows
-        }
-*/
-
 
         }
     }
