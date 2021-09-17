@@ -195,7 +195,7 @@ public class Order implements com.estafet.learning.sprint6.OrderCalculations {
 
     public void saveOrderObjectToFile() throws IOException {
         // BufferedWriter bw = null;
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("C:\\TrainingPlanProjects\\QATraining\\OrderPropertiesOutput.txt"))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("./OrderPropertiesOutput.txt"))) {
 
             bw.write("\n" + String.valueOf(this.itemsToPass) + ", ");
             bw.write("\n" + this.getOrderNumber() + ", ");

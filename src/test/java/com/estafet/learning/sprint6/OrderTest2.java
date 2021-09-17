@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 @DisplayName("OrderTest class")
-public class OrderTest {
+public class OrderTest2 {
 
     Order objectOrder;
     Double[] doubleObjects;
@@ -73,7 +73,7 @@ public class OrderTest {
                     int decimalPlaces = textDouble.length() - integerPlaces - 1;
                     System.out.println(textDouble);
                     //assertEquals(2, decimalPlaces);
-                    assertTrue(0 <= decimalPlaces && decimalPlaces <= 14);
+                    assertTrue(0 <= decimalPlaces && decimalPlaces <= 18);
                 }
             }
 

@@ -27,17 +27,49 @@
                 </configuration>
             </plugin>
         </plugins>
+
         <pluginManagement>
             <plugins>
+
+<!--            <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.0.0-M4</version>
+                    <configuration>
+                        <includes>
+                            <include>**/*Test.class</include>
+                            <include>**/Test*.class</include>
+                        </includes>
+                    </configuration>
+                </plugin>-->
+
+              <!--  class annotated with @RunWith(JUnitPlatform.class) is actually a JUnit 4 test class and as such needs to be executed with Surefire's JUnit 4 provider.
+               Surefire 2.22.x is the first version with autodetection of the JUnit platform, i.e. as soon as junit-platform-engine is on the classpath it will attempt to execute all test classes using the JUnit Platform. However, the JUnit Platform cannot execute suites annotated with @RunWith(JUnitPlatform.class). There will eventually be support for suites in the Platform (cf. #744).
+               In the meantime, you can force Surefire to use its JUnit 4 provider.-->
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>3.0.0-M4</version>
+                    <configuration>
+                        <includes>
+                            <include>**/*Test.class</include>
+                            <include>**/Test*.class</include>
+                        </includes>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.maven.surefire</groupId>
+                            <artifactId>surefire-junit47</artifactId>
+                            <version>3.0.0-M4</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
+
             </plugins>
         </pluginManagement>
-    </build>
 
+    </build>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -104,6 +136,7 @@
             <version>5.8.0</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
     <dependencyManagement>

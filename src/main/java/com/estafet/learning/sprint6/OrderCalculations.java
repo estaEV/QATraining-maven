@@ -12,7 +12,7 @@ interface OrderCalculations {
     default double additionalDiscount() {
         double randAdditionalDiscountPercent = (rand.nextInt(4- 1) + 1)*10;
         randAdditionalDiscountPercent = 10;
-        System.out.println("\nAdditional discount percent from interface InvoiceCalculations is: " + randAdditionalDiscountPercent);
+        //System.out.println("\nAdditional discount percent from interface InvoiceCalculations is: " + randAdditionalDiscountPercent);
         return randAdditionalDiscountPercent;
     }
     void printObjectProperties();
