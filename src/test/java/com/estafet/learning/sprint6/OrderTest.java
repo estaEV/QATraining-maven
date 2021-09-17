@@ -98,6 +98,7 @@ public class OrderTest {
                 }
             }
 
+            @Disabled
             @Test
             @DisplayName("Test articles field")
             void testArticlesField() {

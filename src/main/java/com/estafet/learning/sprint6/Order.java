@@ -210,7 +210,7 @@ public class Order implements com.estafet.learning.sprint6.OrderCalculations {
             e.printStackTrace();
         }
         finally {
-            System.out.println("Finally still exist in try with resources block.");
+           // System.out.println("Finally still exist in try with resources block.");
 /*            try {
                 if (bw != null)
                     bw.close();
