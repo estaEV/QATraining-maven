@@ -25,7 +25,7 @@ public class OrderTest2 {
     Double[] doubleObjects;
 
     @BeforeEach
-    public void init() throws IOException {
+    void init() throws IOException {
         objectOrder = new Order();
         objectOrder.ExecuteActionsOnOrder();
         doubleObjects = new Double[]{objectOrder.getOrderTotalAmountBeforeVAT(), objectOrder.getOrderTotalAmountAfterVAT(),

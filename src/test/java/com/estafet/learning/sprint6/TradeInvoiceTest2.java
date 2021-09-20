@@ -4,6 +4,8 @@ import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 
 import java.io.IOException;
@@ -20,7 +22,7 @@ public class TradeInvoiceTest2 {
     Double[] doubleObjects;
 
     @BeforeEach
-    public void init() throws IOException {
+    void init() throws IOException {
         objectTradeInvoice = new TradeInvoice();
         objectTradeInvoice.ExecuteActions();
         doubleObjects = new Double[]{objectTradeInvoice.getTotalAmountBeforeVAT(), objectTradeInvoice.getTotalAmountAfterVAT(),
@@ -41,10 +43,12 @@ public class TradeInvoiceTest2 {
                 assertEquals(36, objectTradeInvoice.getClientDetails().length());
             }
 
-            @Test
-            @DisplayName("Check clientDetails for whitespaces")
-            void checkClientDetailsForWhitespaces() {
-                assertFalse(objectTradeInvoice.getClientDetails().contains(" "));
+            @ParameterizedTest
+            @ValueSource(strings = {"", "  "})
+            @DisplayName("Check clientDetails for whitespaces or emptiness")
+            void checkClientDetailsForWhitespaces(String input) {
+                System.out.println("current input" + input);
+                assertFalse(objectTradeInvoice.getClientDetails().contains(input));
             }
 
             @Test
@@ -88,17 +92,22 @@ public class TradeInvoiceTest2 {
             void testIfEachItemOfTheArticleListHasAPrice() {
                 Map<String, Double> articles = objectTradeInvoice.getArticles();
                 for (Double value : articles.values()) {
-                    assertNotNull(value);
-                    assertNotEquals(0, value);
+                    assertAll(
+                            () -> assertNotNull(value),
+                            () -> assertNotEquals(0, value));
                 }
             }
 
-            @Disabled
-            @Test
-            @DisplayName("Test articles field")
-            void testArticlesField() {
-                assertNotNull(objectTradeInvoice.getArticles());
-                assertTrue(3 <= objectTradeInvoice.getArticles().size() && objectTradeInvoice.getArticles().size() <= 8);
+            //@Disabled
+            @ParameterizedTest()
+            @ValueSource(ints = {8, 7, 6, 5, 4, 3, 2, 1, Integer.MAX_VALUE})
+            @DisplayName("Test number of articles field")
+            void testNumberOfArticlesField(int number) {
+                //assertAll();
+                //assertNotNull(objectTradeInvoice.getArticles());
+                System.out.println("is " + number + " <= than " + objectTradeInvoice.getArticles().size());
+                //assertTrue(number <= objectTradeInvoice.getArticles().size());
+                assertEquals(number, objectTradeInvoice.getArticles().size());
             }
 
 
@@ -162,5 +171,10 @@ public class TradeInvoiceTest2 {
                 assertEquals("Shipping is not supported for the following amount: " + objectTradeInvoice.getTotalAmountBeforeVAT(), error.getMessage());
             }
         }
+
+
+
+
+
     }
 }
