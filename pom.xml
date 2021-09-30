@@ -13,6 +13,11 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
+        <java.version>1.8</java.version>
+        <junit.version>4.13.2</junit.version>
+        <cucumber.version>6.11.0</cucumber.version>
+        <maven.compiler.version>3.8.1</maven.compiler.version>
+        <maven.surefire.version>3.0.0-M4</maven.surefire.version>
     </properties>
 
     <build>
@@ -20,28 +25,16 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>${maven.compiler.version}</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                 </configuration>
             </plugin>
         </plugins>
 
         <pluginManagement>
             <plugins>
-
-<!--            <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.0.0-M4</version>
-                    <configuration>
-                        <includes>
-                            <include>**/*Test.class</include>
-                            <include>**/Test*.class</include>
-                        </includes>
-                    </configuration>
-                </plugin>-->
 
               <!--  class annotated with @RunWith(JUnitPlatform.class) is actually a JUnit 4 test class and as such needs to be executed with Surefire's JUnit 4 provider.
                Surefire 2.22.x is the first version with autodetection of the JUnit platform, i.e. as soon as junit-platform-engine is on the classpath it will attempt to execute all test classes using the JUnit Platform. However, the JUnit Platform cannot execute suites annotated with @RunWith(JUnitPlatform.class). There will eventually be support for suites in the Platform (cf. #744).
@@ -61,20 +54,35 @@
                         <dependency>
                             <groupId>org.apache.maven.surefire</groupId>
                             <artifactId>surefire-junit47</artifactId>
-                            <version>3.0.0-M4</version>
+                            <version>${maven.surefire.version}</version>
                         </dependency>
                     </dependencies>
                 </plugin>
-
             </plugins>
         </pluginManagement>
-
     </build>
+
+
     <dependencies>
+
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.13.2</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -105,6 +113,7 @@
             <version>1.8.0</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -112,29 +121,35 @@
             <scope>test</scope>
         </dependency>
 
-
-        <!-- not sure about -->
-        <!-- SUNFIRE -->
-
-        <!-- SUNFIRE -->
-
-        <!-- not sure about -->
-
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
             <version>2.8.2</version>
         </dependency>
+
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>1.4.196</version>
         </dependency>
+
         <dependency>
             <groupId>org.junit.vintage</groupId>
             <artifactId>junit-vintage-engine</artifactId>
             <version>5.8.0</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.19</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>1.0.2</version>
         </dependency>
 
     </dependencies>

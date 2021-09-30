@@ -46,3 +46,10 @@ Profiles: customized build configurations. For example: skip the test part: mvn 
 - @RunWith annotation has been replaced by the more powerful @ExtendWith but can be still used in JUnit 5 for the sake of backward compatability
 
 dependency injection/ inversion of control / test double
+
+-------------------------------
+Q&A review:
+    Differences between oracle and mysql:
+    oracle - there is no null and boolean
+    builder design patter
+
