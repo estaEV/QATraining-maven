@@ -32,6 +32,7 @@ public class Main {
             menu.forEach(option -> System.out.println(option));
             System.out.print("\nEnter the selected func(): ");
             int option = sc.nextInt();
+            sc.nextLine();
             switch (option) {
                 case 0:
                     ConnectComponent.closeConnection();
@@ -56,7 +57,6 @@ public class Main {
                     break;
                 case 5:
                     System.out.print("Input the table to work with: ");
-                    sc.nextLine();
                     String table = sc.nextLine();
                     System.out.print("Enter objectId: ");
                     String customerId = sc.nextLine();
@@ -67,7 +67,6 @@ public class Main {
                 case 6:
                     String table2 = null;
                     System.out.println("\nInput the table to work with: ");
-                    sc.nextLine();
                     table2 = sc.nextLine();
                     System.out.println("\nEnter the ID of the object for deletion: ");
                     String objectId = sc.nextLine();
