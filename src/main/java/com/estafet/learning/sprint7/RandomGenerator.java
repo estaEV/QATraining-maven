@@ -85,12 +85,12 @@ public class RandomGenerator {
         }
 
         onlineOrderList = new ArrayList<>();
-        for (int i = 0; i < faker.number().numberBetween(120, 120); i++) {
+        for (int i = 0; i < faker.number().numberBetween(1200, 1200); i++) {
             OnlineOrder fak = new OnlineOrder();
             onlineOrderList.add(fak);
             onlineOrderStartId = ++onlineOrderStartId;
             onlineOrderList.get(i).setOrder_number(onlineOrderStartId);
-            onlineOrderList.get(i).setCustomer_number(faker.number().numberBetween(custStartId, customersList.size()));
+            onlineOrderList.get(i).setCustomer_number(faker.number().numberBetween(custStartId, custStartId+customersList.size()));
             onlineOrderList.get(i).setDate(faker.date().past(2022, TimeUnit.DAYS));
             List<Product> listOfProducts = new ArrayList<>();
             double totalPrice = 0;

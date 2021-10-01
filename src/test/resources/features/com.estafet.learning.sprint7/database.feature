@@ -23,10 +23,27 @@ Feature: General operations using the DB
     When A search in table <Table> for an object of type <Object type> with ID <object ID> is conducted
     #Then The record should be validated
     Examples:
-      | Table     | Object type | object ID |
-      | customers | customer    | 120025    |
-      | online_orders | online_order    | 160002    |
-      | products | product    | 80016    |
+      | Table         | Object type  | object ID |
+      | customers     | customer     | 120025    |
+      | online_orders | online_order | 160002    |
+      | products      | product      | 80016     |
+
+
+  Scenario Outline: Get orders for a specific customer
+
+    Given Table <Table> is created
+    When A search for all orders of a specific customer is performed
+      | 120226 |
+      | 120225 |
+      | 120224 |
+
+    #Then The record should be validated
+    Examples:
+      | Table         |
+      | online_orders |
+#      | customers     |
+#      | products      |
+
 
 
 #  Scenario: Cleaning data and tables

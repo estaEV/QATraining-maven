@@ -1,5 +1,6 @@
 package com.estafet.learning.sprint7;
 
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -133,6 +134,32 @@ public class StorePlatformStepDefinition {
                     }
                 }
             }
+        }
+    }
+
+    @When("A search for all orders of a specific customer is performed")
+    public void aSearchForAllOrdersOfASpecificCustomerIsPerformed(List<String> customerNumber) throws SQLException {
+        for (String s : customerNumber) {
+
+            double ordersCount = 0;
+            StringBuilder query = new StringBuilder();
+            query
+                    .append("SELECT COUNT(DISTINCT (order_number)) " +
+                            System.getProperty("line.separator") +
+                            "FROM online_orders " +
+                            System.getProperty("line.separator") +
+                            "WHERE customer_number = " + s + ";");
+
+            try (PreparedStatement preparedStatement = connection.
+                    prepareStatement(String.valueOf(query));) {
+
+                try (ResultSet resultSet = preparedStatement.executeQuery();) {
+                    while (resultSet.next()) {
+                        ordersCount = resultSet.getInt("COUNT(DISTINCT (order_number))");
+                    }
+                }
+            }
+            System.out.printf("\nTotal number of orders for customer with ID: %2s is %1s", s, ordersCount);
         }
     }
 }
