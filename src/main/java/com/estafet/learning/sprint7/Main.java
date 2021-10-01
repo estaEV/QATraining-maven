@@ -2,22 +2,18 @@ package com.estafet.learning.sprint7;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import static com.estafet.learning.sprint7.Globals.tablesToWorkWith;
+import static com.estafet.learning.sprint7.Globals.*;
 
 public class Main {
 
-    public static void main(String[] args) throws SQLException {
-
-/*        Result result = JUnitCore.runClasses(InvoiceTestSuite.class);
-        for (Failure failure : result.getFailures()) {
-            System.out.println(failure.toString());
-        }*/
-
+    public static void main(String[] args) throws SQLException, ParseException {
         Scanner sc = new Scanner(System.in);
+
         List<String> menu = new ArrayList<>();
         System.out.println("sprint7");
         menu.add("\n0. Exit.");
@@ -25,6 +21,8 @@ public class Main {
         menu.add("2. Delete tables.");
         menu.add("3. Fill tables with data.");
         menu.add("4. Clean data from tables.");
+        menu.add("5. Update customer data.");
+        menu.add("6. Delete specific data from table.");
 
         boolean isRunning = true;
 
@@ -40,24 +38,40 @@ public class Main {
                     isRunning = false;
                     break;
                 case 1:
-                    comp.createTables(Globals.tablesToWorkWith3);
+                    comp.createTables(tablesToWorkWith3);
                     break;
                 case 2:
-                    comp.deleteTables(Globals.tablesToWorkWith3);
+                    comp.deleteTables(tablesToWorkWith3);
                     break;
                 case 3:
                     RandomGenerator randData = new RandomGenerator();
                     randData.generateMeSome();
-
+                    comp.insertStudentsData(tablesToWorkWith, randData);
+                    comp.insertProductsData(tablesToWorkWith, randData);
+                    comp.insertOnlineOrdersData(tablesToWorkWith, randData);
+                    System.out.println("im out");
                     break;
                 case 4:
                     comp.truncateTable(tablesToWorkWith);
                     break;
                 case 5:
-
+                    System.out.print("Input the table to work with: ");
+                    sc.nextLine();
+                    String table = sc.nextLine();
+                    System.out.print("Enter objectId: ");
+                    String customerId = sc.nextLine();
+                    System.out.print("Input the new SET sql statement (SET column1 = value1, column2 = value2, ...): ");
+                    String newSetStatement = sc.nextLine();
+                    comp.updateObject(table, customerId, newSetStatement);
                     break;
                 case 6:
-
+                    String table2 = null;
+                    System.out.println("\nInput the table to work with: ");
+                    sc.nextLine();
+                    table2 = sc.nextLine();
+                    System.out.println("\nEnter the ID of the object for deletion: ");
+                    String objectId = sc.nextLine();
+                    comp.deleteObject(table2, objectId);
                     break;
             }
         }

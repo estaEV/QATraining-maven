@@ -4,11 +4,12 @@ package com.estafet.learning.sprint7;
 import com.estafet.learning.sprint7.*;
 import com.github.javafaker.Faker;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
 public class RandomGenerator {
@@ -18,8 +19,33 @@ public class RandomGenerator {
     private int prodStartId = 79999;
     private int custStartId = 119999;
     private int onlineOrderStartId = 159999;
+    NumberFormat nf = NumberFormat.getInstance(Locale.ENGLISH);
 
-    public void generateMeSome() {
+    public List<Customer> getCustomersList() {
+        return customersList;
+    }
+
+    public void setCustomersList(List<Customer> customersList) {
+        this.customersList = customersList;
+    }
+
+    public List<Product> getProductsList() {
+        return productsList;
+    }
+
+    public void setProductsList(List<Product> productsList) {
+        this.productsList = productsList;
+    }
+
+    public List<OnlineOrder> getOnlineOrderList() {
+        return onlineOrderList;
+    }
+
+    public void setOnlineOrderList(List<OnlineOrder> onlineOrderList) {
+        this.onlineOrderList = onlineOrderList;
+    }
+
+    public void generateMeSome() throws ParseException {
         Faker faker = new Faker();
         int length = com.estafet.learning.sprint7.Globals.STUDENTNAMES.length;
 
@@ -51,7 +77,8 @@ public class RandomGenerator {
             productsList.add(fuk);
             prodStartId = ++prodStartId;
             productsList.get(i).setProduct_code(String.valueOf(prodStartId));
-            productsList.get(i).setPrice(Double.parseDouble(faker.commerce().price()));
+
+            productsList.get(i).setPrice(nf.parse(faker.commerce().price(20, 1500)).doubleValue());
             productsList.get(i).setProduct_name(faker.commerce().productName());
             productsList.get(i).setProduct_description(faker.commerce().department());
             productsList.get(i).setQuantity(faker.number().numberBetween(20, 100));
@@ -64,15 +91,13 @@ public class RandomGenerator {
             onlineOrderStartId = ++onlineOrderStartId;
             onlineOrderList.get(i).setOrder_number(onlineOrderStartId);
             onlineOrderList.get(i).setCustomer_number(faker.number().numberBetween(custStartId, customersList.size()));
-            onlineOrderList.get(i).setDate(String.valueOf(faker.date()));
-
-            List<Product> listOfProducts = null;
+            onlineOrderList.get(i).setDate(faker.date().past(2022, TimeUnit.DAYS));
+            List<Product> listOfProducts = new ArrayList<>();
             double totalPrice = 0;
             for (int j = 0; j < faker.number().numberBetween(2, 8); j++) {
-                listOfProducts.add(productsList.get(numberOfThings.get()));
+                listOfProducts.add(this.productsList.get(faker.number().numberBetween(1, this.productsList.size())));
                 totalPrice = listOfProducts.get(j).getPrice();
             }
-
             onlineOrderList.get(i).setListOfProducts(listOfProducts);
             onlineOrderList.get(i).setTotal_price(totalPrice);
         }

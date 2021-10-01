@@ -1,5 +1,8 @@
 package com.estafet.learning.sprint7;
 
+import com.github.javafaker.DateAndTime;
+
+import java.util.Date;
 import java.util.List;
 
 public class OnlineOrder {
@@ -7,7 +10,7 @@ public class OnlineOrder {
     private int customer_number;
 
     private double total_price;
-    private String date;
+    private Date date;
     List<Product> listOfProducts;
 
 
@@ -38,11 +41,11 @@ public class OnlineOrder {
         this.quantity = quantity;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

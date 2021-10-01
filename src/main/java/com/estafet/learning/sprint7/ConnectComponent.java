@@ -1,13 +1,17 @@
 package com.estafet.learning.sprint7;
 
-//import org.springframework.util.StopWatch;
+import org.springframework.util.StopWatch;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+
+import java.sql.*;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import static com.estafet.learning.sprint7.Globals.connection;
+import static com.estafet.learning.sprint7.Globals.tablesToWorkWith;
 import static java.lang.String.valueOf;
 
 public class ConnectComponent {
@@ -88,82 +92,93 @@ public class ConnectComponent {
         }
     }
 
-/*
 
-    public void insertStudentsData(String[] tablesToDelete, RandomGenerator randData) throws SQLException {
 
-        List<Student> listStud = new ArrayList<>();
-        listStud = randData.getStdList();
+    public void insertStudentsData(String[] tablesToWorkWith, RandomGenerator randData) throws SQLException {
 
-        for (int i = 0; i < listStud.size(); i++) {
-            listStud.get(i);
+        List<Customer> listCust = new ArrayList<>();
+        listCust = randData.getCustomersList();
+
+        for (int i = 0; i < listCust.size(); i++) {
+            listCust.get(i);
 
             String strQuery =
                     "INSERT INTO $tableName "
-                            + "(name, StudentId, classYear) "
-                            + "VALUES (?, ?, ?)";
+                            + "(customer_number, first_name, last_name, address_line1, address_line2,"
+                            + " year, phone, city, postcode) "
+                            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             String query = strQuery
-                    .replace("$tableName", tablesToDelete[0]);
+                    .replace("$tableName", tablesToWorkWith[0]);
 
             try (PreparedStatement preparedStatement = connection.
                     prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
-                preparedStatement.setString(1, listStud.get(i).getName());
-                preparedStatement.setInt(2, listStud.get(i).getStudentId());
-                preparedStatement.setInt(3, listStud.get(i).getClassYear());
+                preparedStatement.setInt(1, listCust.get(i).getCustomer_number());
+                preparedStatement.setString(2, listCust.get(i).getFirst_name());
+                preparedStatement.setString(3, listCust.get(i).getLast_name());
+                preparedStatement.setString(4, listCust.get(i).getAddress_line1());
+                preparedStatement.setString(5, listCust.get(i).getAddress_line2());
+                preparedStatement.setInt(6, listCust.get(i).getYear());
+                preparedStatement.setString(7, listCust.get(i).getPhone());
+                preparedStatement.setString(8, listCust.get(i).getCity());
+                preparedStatement.setString(9, listCust.get(i).getPostcode());
                 preparedStatement.executeUpdate();
             }
         }
     }
 
-    public void insertSubjectsData(String[] tablesToDelete, RandomGenerator randData) throws SQLException {
+    public void insertProductsData(String[] tablesToWorkWith, RandomGenerator randData) throws SQLException {
 
-        List<Subject> listSub = new ArrayList<>();
-        listSub = randData.getSubList();
+        List<Product> listProd = new ArrayList<>();
+        listProd = randData.getProductsList();
 
-        for (int i = 0; i < listSub.size(); i++) {
-            listSub.get(i);
+        for (int i = 0; i < listProd.size(); i++) {
+            listProd.get(i);
 
             String strQuery =
                     "INSERT INTO $tableName "
-                            + "(name, subjectId, year) "
-                            + "VALUES (?, ?, ?)";
+                            + "(product_name, product_description, product_code, quantity, price) "
+                            + "VALUES (?, ?, ?, ?, ?)";
 
             String query = strQuery
-                    .replace("$tableName", tablesToDelete[1]);
+                    .replace("$tableName", tablesToWorkWith[1]);
 
             try (PreparedStatement preparedStatement = connection.
                     prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
-                preparedStatement.setString(1, listSub.get(i).getSubjectName());
-                preparedStatement.setString(2, String.valueOf(listSub.get(i).getSubjectId()));
-                preparedStatement.setInt(3, listSub.get(i).getYearStudied());
+                preparedStatement.setString(1, listProd.get(i).getProduct_name());
+                preparedStatement.setString(2, listProd.get(i).getProduct_description());
+                preparedStatement.setString(3, listProd.get(i).getProduct_code());
+                preparedStatement.setInt(4, listProd.get(i).getQuantity());
+                preparedStatement.setDouble(5, listProd.get(i).getPrice());
                 preparedStatement.executeUpdate();
             }
         }
     }
+    
 
-    public void insertGradebookData(String[] tablesToDelete, RandomGenerator randData) throws SQLException {
+    public void insertOnlineOrdersData(String[] tablesToDelete, RandomGenerator randData) throws SQLException {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
 
         Instant starts = Instant.now();
 
-        List<GradeBook> listGra = new ArrayList<>();
-        listGra = randData.getGraList();
+        List<OnlineOrder> listOnlineOrders = new ArrayList<>();
+        listOnlineOrders = randData.getOnlineOrderList();
 
-        for (int i = 0; i < listGra.size(); i++) {
+        for (int i = 0; i < listOnlineOrders.size(); i++) {
 
-            listGra.get(i);
-            int numbersOfSubjectsStudied = listGra.get(i).getGrades().size();
-            Map<String, Integer> mapOfGrades = listGra.get(i).getGrades();
+            listOnlineOrders.get(i);
 
-            for (Map.Entry<String, Integer> mapOfGrades2 : mapOfGrades.entrySet()) {
+            int numbersOfSubjectsStudied = listOnlineOrders.get(i).getListOfProducts().size();
+
+
+            for (int j = 0; j < listOnlineOrders.get(i).getListOfProducts().size(); j++) {
                 String strQuery =
                         "INSERT INTO $tableName "
-                                + "(studentId, subjectId, grade) "
-                                + "VALUES (?, ?, ?)";
+                                + "(order_number, customer_number, total_price, date, product_code) "
+                                + "VALUES (?, ?, ?, ?, ?)";
 
                 String query = strQuery
                         .replace("$tableName", tablesToDelete[2]);
@@ -171,9 +186,13 @@ public class ConnectComponent {
                 try (PreparedStatement preparedStatement = connection.
                         prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
-                    preparedStatement.setInt(1, listGra.get(i).getStudentId());
-                    preparedStatement.setInt(2, Integer.parseInt(mapOfGrades2.getKey()));
-                    preparedStatement.setInt(3, Integer.valueOf(mapOfGrades2.getValue()));
+                    preparedStatement.setInt(1, listOnlineOrders.get(i).getOrder_number());
+                    preparedStatement.setInt(2, listOnlineOrders.get(i).getCustomer_number());
+                    preparedStatement.setDouble(3, listOnlineOrders.get(i).getTotal_price());
+                    preparedStatement.setString(4, String.valueOf(listOnlineOrders.get(i).getDate()));
+                    preparedStatement.setString(5, listOnlineOrders.get(i)
+                            .getListOfProducts().get(j)
+                            .getProduct_code());
                     preparedStatement.executeUpdate();
                 }
             }
@@ -185,22 +204,39 @@ public class ConnectComponent {
     }
 
 
-    public void insertNewSubject(String[] tablesToDelete, String newSubject, String newSubjectId, int subjectYear) throws SQLException {
+    public void updateObject(String table, String objectId, String sqlSet) {
+        String columnId = null;
+        String adapter = "";
+
+        switch(table) {
+            case "customers":
+                columnId = "customer_number";
+                break;
+            case "products":
+                columnId = "product_code";
+                objectId = "\"" + objectId + "\"";
+                adapter = "\"";
+                break;
+            case "online_orders":
+                columnId = "order_number";
+                break;
+        }
+
+
         String strQuery =
-                "INSERT INTO $tableName "
-                        + "(name, subjectId, year) "
-                        + "VALUES (?, ?, ?)";
+                "UPDATE $table_name "
+                        + sqlSet
+                        + " WHERE " + columnId + " = " + objectId + ";";
 
         String query = strQuery
-                .replace("$tableName", tablesToDelete[1]);
+                .replace("$table_name", table);
 
         try (PreparedStatement preparedStatement = connection.
                 prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-
-            preparedStatement.setString(1, newSubject);
-            preparedStatement.setString(2, newSubjectId);
-            preparedStatement.setInt(3, subjectYear);
+            System.out.println("preparestatement: " + preparedStatement);
             preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 
@@ -224,7 +260,39 @@ public class ConnectComponent {
         }
         System.out.println("The AVG math grade for all students is: " + avgGrade);
     }
-*/
+
+    public void deleteObject(String tableToDeleteFrom, String objectId ) throws SQLException {
+        String columnId = null;
+        String adapter = "";
+
+        switch(tableToDeleteFrom) {
+            case "customers":
+                columnId = "customer_number";
+                break;
+            case "products":
+                columnId = "product_code";
+                objectId = "\"" + objectId + "\"";
+                adapter = "\"";
+                break;
+            case "online_orders":
+                columnId = "order_number";
+                break;
+        }
+
+
+        StringBuilder query = new StringBuilder();
+
+        query
+                .append("DELETE FROM " + tableToDeleteFrom + " " +
+                        System.getProperty("line.separator") +
+                        "WHERE " + columnId + " = " + objectId + ";");
+
+        try (PreparedStatement preparedStatement = connection.
+                prepareStatement(String.valueOf(query));) {
+            System.out.println("preparetStatement: " + preparedStatement);
+            preparedStatement.executeUpdate();
+            }
+    }
 
 
     public static void closeConnection() throws SQLException {
