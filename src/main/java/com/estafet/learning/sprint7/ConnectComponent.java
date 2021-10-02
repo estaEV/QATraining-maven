@@ -94,7 +94,7 @@ public class ConnectComponent {
 
 
 
-    public void insertStudentsData(String[] tablesToWorkWith, RandomGenerator randData) throws SQLException {
+    public void insertCustomersData(String[] tablesToWorkWith, RandomGenerator randData) throws SQLException {
 
         List<Customer> listCust = new ArrayList<>();
         listCust = randData.getCustomersList();

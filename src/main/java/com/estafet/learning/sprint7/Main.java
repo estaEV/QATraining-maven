@@ -47,7 +47,7 @@ public class Main {
                 case 3:
                     RandomGenerator randData = new RandomGenerator();
                     randData.generateMeSome();
-                    comp.insertStudentsData(tablesToWorkWith, randData);
+                    comp.insertCustomersData(tablesToWorkWith, randData);
                     comp.insertProductsData(tablesToWorkWith, randData);
                     comp.insertOnlineOrdersData(tablesToWorkWith, randData);
                     System.out.println("im out");

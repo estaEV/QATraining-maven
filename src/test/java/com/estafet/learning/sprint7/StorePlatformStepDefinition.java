@@ -9,6 +9,7 @@ import io.cucumber.java.en.When;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,8 @@ public class StorePlatformStepDefinition {
             try {
                 comp.createTables(tablesToWorkWith3);
             } catch (Exception e) {
-                ;;
+                ;
+                ;
             }
             tableNameHasToBePresentIntoTheDB(table);
         }
@@ -96,7 +98,7 @@ public class StorePlatformStepDefinition {
         String adapter = "";
 
 
-        switch(tableName) {
+        switch (tableName) {
             case "customers":
                 columnId = "customer_number";
                 break;
@@ -116,7 +118,6 @@ public class StorePlatformStepDefinition {
                         System.getProperty("line.separator") +
                         "WHERE " + columnId + " = " + adapter + objectId + adapter + ";");
 
-
         try (PreparedStatement preparedStatement = connection.
                 prepareStatement(query.toString());) {
 
@@ -126,8 +127,7 @@ public class StorePlatformStepDefinition {
                         String result2 = null;
                         result2 = resultSet.getString(3);
                         assertEquals(objectId, result2);
-                    }
-                    else {
+                    } else {
                         int result = 0;
                         result = resultSet.getInt(1);
                         assertEquals(Integer.parseInt(objectId), result);
@@ -161,5 +161,174 @@ public class StorePlatformStepDefinition {
             }
             System.out.printf("\nTotal number of orders for customer with ID: %2s is %1s", s, ordersCount);
         }
+    }
+
+    @When("Object of type product is generated")
+    public void objectOfTypeProductIsGenerated(DataTable table) throws SQLException {
+        List<List<String>> rows = table.asLists(String.class);
+
+        RandomGenerator randData = new RandomGenerator();
+        List<Product> prodList = new ArrayList<>();
+
+        for (List<String> row : rows) {
+            Product prodObj = new Product();
+
+            prodObj.setProduct_code(row.get(0));
+            prodObj.setProduct_description(row.get(1));
+            prodObj.setProduct_code(row.get(2));
+            prodObj.setQuantity(Integer.parseInt(row.get(3)));
+            prodObj.setPrice(Double.parseDouble(row.get(3)));
+
+            prodList.add(prodObj);
+            randData.setProductsList(prodList);
+            comp.insertProductsData(tablesToWorkWith, randData);
+        }
+    }
+
+
+    @When("Object of type customer is generated")
+    public void objectOfTypeCustomerIsGenerated(DataTable table) throws SQLException {
+        List<List<String>> rows = table.asLists(String.class);
+
+        RandomGenerator randData = new RandomGenerator();
+        List<Customer> custList = new ArrayList<>();
+
+        for (List<String> row : rows) {
+            Customer obj = new Customer();
+
+            obj.setCustomer_number(Integer.parseInt(row.get(0)));
+            obj.setFirst_name(row.get(1));
+            obj.setLast_name(row.get(2));
+            obj.setAddress_line1(row.get(3));
+            obj.setAddress_line2(row.get(4));
+            obj.setYear(Integer.parseInt(row.get(5)));
+            obj.setPhone(row.get(6));
+            obj.setCity(row.get(7));
+            obj.setPostcode(row.get(8));
+            custList.add(obj);
+            randData.setCustomersList(custList);
+            comp.insertCustomersData(tablesToWorkWith, randData);
+        }
+    }
+
+
+    @When("^The new record with id (.+) in table (.+) has to be validated$")
+    public void theNewRecordShouldBeValidated(String objectId, String tableName) throws SQLException {
+        String columnId = null;
+        String adapter = "";
+
+
+        switch (tableName) {
+            case "customers":
+                columnId = "customer_number";
+                break;
+            case "products":
+                columnId = "product_code";
+                //objectId = "\"" + objectId + "\"";
+                adapter = "\"";
+                break;
+            case "online_orders":
+                columnId = "order_number";
+                break;
+        }
+
+        StringBuilder query = new StringBuilder();
+        query
+                .append("SELECT " + columnId + " FROM " + tableName + " " +
+                        System.getProperty("line.separator") +
+                        "WHERE " + columnId + " = " + adapter + objectId + adapter + ";");
+
+        try (PreparedStatement preparedStatement = connection.
+                prepareStatement(query.toString());) {
+
+            try (ResultSet resultSet = preparedStatement.executeQuery();) {
+                while (resultSet.next()) {
+                    if ("products".equals(tableName)) {
+                        String result2 = null;
+                        result2 = resultSet.getString(1);
+                        assertEquals(objectId, result2);
+                    } else {
+                        int result = 0;
+                        result = resultSet.getInt(1);
+                        assertEquals(Integer.parseInt(objectId), result);
+                    }
+                }
+            }
+        }
+    }
+
+    @When("^An existing object of type with ID is updated$")
+    public void anExistingObjectOfTypeTypeWithIDObjectIdIsUpdated(DataTable table) {
+
+        List<List<String>> rows = table.asLists(String.class);
+        String columnId = null;
+        String adapter = "";
+        int tableId = 99;
+        String[] listOfColumns;
+        String pattermatcher = "VARCHAR";
+        for (List<String> row : rows) {
+
+            switch (row.get(0)) {
+                case "customer":
+                    columnId = "customer_number";
+                    tableId = 0;
+                    break;
+                case "product":
+                    columnId = "product_code";
+                    //objectId = "\"" + objectId + "\"";
+                    adapter = "\"";
+                    tableId = 1;
+                    break;
+                case "online_order":
+                    columnId = "order_number";
+                    tableId = 2;
+                    break;
+            }
+            String adapter2 = "";
+            String setStatement = "SET ";
+
+// 3 CHASA
+            for (int i = 1; i < tablesToWorkWith3[tableId].length; i++) {
+                int size = tablesToWorkWith3[tableId][i].length();
+
+                if (tablesToWorkWith3[tableId][i].contains("VARCHAR")) {
+                    adapter2 = "\"";
+                } else {
+                    adapter2 = "";
+                }
+
+                if (i == tablesToWorkWith3[tableId].length-1) {
+                        setStatement = setStatement.concat(tablesToWorkWith3[tableId][i].replaceAll("\\s.*", "") + " = " + adapter2 + row.get(i + 1) + adapter2 + " ");
+                        //setStatement = setStatement.concat(tablesToWorkWith3[tableId][i].replaceAll("\\s.*", "") + " = " + adapter2 + row.get(i + 1) + adapter2 + ";");
+                        break;
+                } else {
+                setStatement = setStatement.concat(tablesToWorkWith3[tableId][i].replaceAll("\\s.*", "") + " = " + adapter2 + row.get(i + 1) + adapter2 + ", ");
+                }
+            }
+            System.out.println("sqlme: " + setStatement);
+
+            String strQuery =
+                    "UPDATE $table_name "
+                            + setStatement
+                            + " WHERE " + columnId + " = " + adapter +  row.get(1) + adapter + ";";
+
+            String query = strQuery
+                    .replace("$table_name", tablesToWorkWith3[tableId][0]);
+
+            try (PreparedStatement preparedStatement = connection.
+                    prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+                System.out.println("preparestatement: " + preparedStatement);
+                preparedStatement.executeUpdate();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+
+
+        }
+    }
+
+
+    @And("Object of type {} with ID {} is present")
+    public void objectOfTypeTypeWithIDObjectIdIsPresent() {
     }
 }
