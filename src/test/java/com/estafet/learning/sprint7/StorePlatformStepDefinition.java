@@ -6,11 +6,10 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.estafet.learning.sprint7.Globals.*;
@@ -212,8 +211,8 @@ public class StorePlatformStepDefinition {
     }
 
 
-    @When("^The new record with id (.+) in table (.+) has to be validated$")
-    public void theNewRecordShouldBeValidated(String objectId, String tableName) throws SQLException {
+    @When("^Record with id (.+) in table (.+) has to be validated$")
+    public void recordShouldBeValidated(String objectId, String tableName) throws SQLException {
         String columnId = null;
         String adapter = "";
 
@@ -287,7 +286,7 @@ public class StorePlatformStepDefinition {
             String adapter2 = "";
             String setStatement = "SET ";
 
-// 3 CHASA
+
             for (int i = 1; i < tablesToWorkWith3[tableId].length; i++) {
                 int size = tablesToWorkWith3[tableId][i].length();
 
@@ -297,12 +296,12 @@ public class StorePlatformStepDefinition {
                     adapter2 = "";
                 }
 
-                if (i == tablesToWorkWith3[tableId].length-1) {
-                        setStatement = setStatement.concat(tablesToWorkWith3[tableId][i].replaceAll("\\s.*", "") + " = " + adapter2 + row.get(i + 1) + adapter2 + " ");
-                        //setStatement = setStatement.concat(tablesToWorkWith3[tableId][i].replaceAll("\\s.*", "") + " = " + adapter2 + row.get(i + 1) + adapter2 + ";");
-                        break;
+                if (i == tablesToWorkWith3[tableId].length - 1) {
+                    setStatement = setStatement.concat(tablesToWorkWith3[tableId][i].replaceAll("\\s.*", "") + " = " + adapter2 + row.get(i + 1) + adapter2 + " ");
+                    //setStatement = setStatement.concat(tablesToWorkWith3[tableId][i].replaceAll("\\s.*", "") + " = " + adapter2 + row.get(i + 1) + adapter2 + ";");
+                    break;
                 } else {
-                setStatement = setStatement.concat(tablesToWorkWith3[tableId][i].replaceAll("\\s.*", "") + " = " + adapter2 + row.get(i + 1) + adapter2 + ", ");
+                    setStatement = setStatement.concat(tablesToWorkWith3[tableId][i].replaceAll("\\s.*", "") + " = " + adapter2 + row.get(i + 1) + adapter2 + ", ");
                 }
             }
             System.out.println("sqlme: " + setStatement);
@@ -310,7 +309,7 @@ public class StorePlatformStepDefinition {
             String strQuery =
                     "UPDATE $table_name "
                             + setStatement
-                            + " WHERE " + columnId + " = " + adapter +  row.get(1) + adapter + ";";
+                            + " WHERE " + columnId + " = " + adapter + row.get(1) + adapter + ";";
 
             String query = strQuery
                     .replace("$table_name", tablesToWorkWith3[tableId][0]);
@@ -322,13 +321,37 @@ public class StorePlatformStepDefinition {
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-
-
         }
     }
 
 
-    @And("Object of type {} with ID {} is present")
-    public void objectOfTypeTypeWithIDObjectIdIsPresent() {
+    @When("^Object of type online_orders is generated$")
+    public void objectOfTypeOnline_ordersIsGenerated(DataTable table) throws SQLException {
+        List<List<String>> rows = table.asLists(String.class);
+
+        RandomGenerator randData = new RandomGenerator();
+        List<OnlineOrder> ordersList = new ArrayList<>();
+
+        for (List<String> row : rows) {
+            OnlineOrder obj = new OnlineOrder();
+            double totalPrice = 0;
+
+            obj.setOrder_number(Integer.parseInt(row.get(0)));
+            obj.setCustomer_number(Integer.parseInt(row.get(1)));
+
+            List<String> asd = Arrays.asList(row.get(2).split(", "));
+            for (String s : asd) {
+                obj.setProduct_code(s);
+            }
+
+            obj.setQuantity(Integer.parseInt(row.get(3)));
+            obj.setTotal_price(Double.parseDouble(row.get(4)));
+            //TO DO: fix date
+            obj.setDate(Date.valueOf(row.get(5)));
+            randData.setOnlineOrderList(ordersList);
+            comp.insertOnlineOrdersData(tablesToWorkWith, randData);
+
+        }
     }
 }
+
