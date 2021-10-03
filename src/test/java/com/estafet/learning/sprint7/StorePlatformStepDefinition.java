@@ -7,10 +7,13 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import static com.estafet.learning.sprint7.Globals.*;
 import static org.junit.Assert.*;
@@ -339,18 +342,29 @@ public class StorePlatformStepDefinition {
             obj.setOrder_number(Integer.parseInt(row.get(0)));
             obj.setCustomer_number(Integer.parseInt(row.get(1)));
 
-            List<String> asd = Arrays.asList(row.get(2).split(", "));
-            for (String s : asd) {
-                obj.setProduct_code(s);
+            List<String> eachProduct = Arrays.asList(row.get(2).split(", "));
+            List<Product> listOfProducts = new ArrayList<>();
+            //List<Product> listOfProducts = Arrays.asList(new Product[eachProduct.size()]);
+
+            for (int i = 0; i < eachProduct.size(); i++) {
+                Product tempProd = new Product();
+                tempProd.setProduct_code(eachProduct.get(i));
+                listOfProducts.add(i, tempProd);
+                //listOfProducts.get(i).setProduct_code(eachProduct.get(i));
             }
 
+            obj.setListOfProducts(listOfProducts);
             obj.setQuantity(Integer.parseInt(row.get(3)));
             obj.setTotal_price(Double.parseDouble(row.get(4)));
-            //TO DO: fix date
-            obj.setDate(Date.valueOf(row.get(5)));
+
+            String string = row.get(5);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm z", Locale.ENGLISH);
+            LocalDate date = LocalDate.parse(string, formatter);
+            System.out.println(date);
+
+            ordersList.add(obj);
             randData.setOnlineOrderList(ordersList);
             comp.insertOnlineOrdersData(tablesToWorkWith, randData);
-
         }
     }
 }

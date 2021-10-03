@@ -7,6 +7,10 @@ public class Product {
     private int quantity;
     private double price;
 
+    Product() {
+
+    }
+
     public String getProduct_name() {
         return product_name;
     }

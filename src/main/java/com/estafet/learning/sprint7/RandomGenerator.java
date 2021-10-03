@@ -7,6 +7,7 @@ import com.github.javafaker.Faker;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
@@ -91,7 +92,9 @@ public class RandomGenerator {
             onlineOrderStartId = ++onlineOrderStartId;
             onlineOrderList.get(i).setOrder_number(onlineOrderStartId);
             onlineOrderList.get(i).setCustomer_number(faker.number().numberBetween(custStartId, custStartId+customersList.size()));
-            onlineOrderList.get(i).setDate(faker.date().past(2022, TimeUnit.DAYS));
+            Date tempDate = (faker.date().past(2022, TimeUnit.DAYS));
+            LocalDate tempDate2 = tempDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            onlineOrderList.get(i).setDate(tempDate2);
             List<Product> listOfProducts = new ArrayList<>();
             double totalPrice = 0;
             for (int j = 0; j < faker.number().numberBetween(2, 8); j++) {

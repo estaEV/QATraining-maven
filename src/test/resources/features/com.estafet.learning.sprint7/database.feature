@@ -53,14 +53,15 @@ Feature: General operations using the DB
       | Small Bronze Shoes     | Electronics | 9002 | 52 | 98 |
     Then Record with id 9002 in table products has to be validated
 
+
   Scenario: Generating custom object of type online_orders
     Given Table online_orders is created
     When Object of type online_orders is generated
-      | 9000 | 145652 | boots, cheese | 52 | 65 | 2018-05-05T11:50:55  |
-      | 9005 | 248898 | boots, cheese | 52 | 65 | 2018-05-05T11:50:55  |
-      | 9010 | 458965 | boots, cheese | 52 | 65 | 2018-05-05T11:50:550 |
-
+      | 9000 | 145652 | boots, cheese | 52 | 65 | 31.07.2016 14:15 GMT+02:00 |
+      | 9005 | 248898 | boots, cheese | 52 | 65 | 31.07.2016 14:15 GMT+02:00 |
+      | 9010 | 458965 | boots, cheese | 52 | 65 | 31.07.2016 14:15 GMT+02:00 |
     Then Record with id 9002 in table products has to be validated
+
 
   Scenario: Updating an existing object
     Given Table products is created
