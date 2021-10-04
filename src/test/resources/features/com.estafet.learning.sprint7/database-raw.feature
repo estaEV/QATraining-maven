@@ -18,7 +18,7 @@ Feature: General operations using the DB
       | online_orders |
 
 
-  @functions
+#  @functions
   Scenario Outline: Search for a specific object in the DB
     Given Table <Table> is created
     When A search in table <Table> for an object of type <Object type> with ID <object ID> is conducted

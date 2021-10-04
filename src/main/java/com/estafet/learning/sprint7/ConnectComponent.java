@@ -193,12 +193,13 @@ public class ConnectComponent {
                     preparedStatement.setString(5, listOnlineOrders.get(i)
                             .getListOfProducts().get(j)
                             .getProduct_code());
+                    System.out.println("squery" + preparedStatement.toString());
                     preparedStatement.executeUpdate();
                 }
             }
         }
         stopWatch.stop();
-        System.out.println(stopWatch.getTotalTimeMillis());
+//        System.out.println(stopWatch.getTotalTimeMillis());
         Instant ends = Instant.now();
         System.out.println(Duration.between(starts, ends));
     }

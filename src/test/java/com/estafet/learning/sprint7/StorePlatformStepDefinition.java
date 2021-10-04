@@ -22,6 +22,7 @@ public class StorePlatformStepDefinition {
 
     ConnectComponent comp = null;
     String resultSetTable = null;
+    int insert = 0;
 
     @Given("A connection is open")
     public void a_connection_is_open() {
@@ -169,10 +170,9 @@ public class StorePlatformStepDefinition {
     public void objectOfTypeProductIsGenerated(DataTable table) throws SQLException {
         List<List<String>> rows = table.asLists(String.class);
 
-        RandomGenerator randData = new RandomGenerator();
-        List<Product> prodList = new ArrayList<>();
-
         for (List<String> row : rows) {
+            RandomGenerator randData = new RandomGenerator();
+            List<Product> prodList = new ArrayList<>();
             Product prodObj = new Product();
 
             prodObj.setProduct_code(row.get(0));
@@ -192,10 +192,9 @@ public class StorePlatformStepDefinition {
     public void objectOfTypeCustomerIsGenerated(DataTable table) throws SQLException {
         List<List<String>> rows = table.asLists(String.class);
 
-        RandomGenerator randData = new RandomGenerator();
-        List<Customer> custList = new ArrayList<>();
-
         for (List<String> row : rows) {
+            RandomGenerator randData = new RandomGenerator();
+            List<Customer> custList = new ArrayList<>();
             Customer obj = new Customer();
 
             obj.setCustomer_number(Integer.parseInt(row.get(0)));
@@ -332,11 +331,11 @@ public class StorePlatformStepDefinition {
     public void objectOfTypeOnline_ordersIsGenerated(DataTable table) throws SQLException {
         List<List<String>> rows = table.asLists(String.class);
 
-        RandomGenerator randData = new RandomGenerator();
-        List<OnlineOrder> ordersList = new ArrayList<>();
-
         for (List<String> row : rows) {
+            RandomGenerator randData = new RandomGenerator();
+            List<OnlineOrder> ordersList = new ArrayList<>();
             OnlineOrder obj = new OnlineOrder();
+
             double totalPrice = 0;
 
             obj.setOrder_number(Integer.parseInt(row.get(0)));
@@ -360,10 +359,12 @@ public class StorePlatformStepDefinition {
             String string = row.get(5);
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm z", Locale.ENGLISH);
             LocalDate date = LocalDate.parse(string, formatter);
-            System.out.println(date);
+            obj.setDate(date);
 
             ordersList.add(obj);
             randData.setOnlineOrderList(ordersList);
+            insert++;
+            System.out.println("call insert:" + insert);
             comp.insertOnlineOrdersData(tablesToWorkWith, randData);
         }
     }
