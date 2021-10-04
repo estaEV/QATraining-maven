@@ -1,0 +1,21 @@
+Connection Methods:
+    - DriverManager with Services
+    - Class.forName() with DriverManager
+    - DataSource
+        * JNDI
+        * Java / Jakarta EE
+        * CDI
+
+JDBC Follows the Facade Pattern
+
+PreparedStatement and ResultSet should be in different, nested try with resources blocks.
+
+Regex
+^ The Start of the string
+$ The end of the string
+(.*) . - any character, zero or more times (including nothing)
+(.+) - matches at least one of anything
+(\\d+) - A sequence of digits
+(\\w+) - A sequence of letters or digits
+
+Example Table where ENTIRE scenario needs to be tested with different/multiple test data.
