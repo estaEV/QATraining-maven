@@ -193,7 +193,6 @@ public class ConnectComponent {
                     preparedStatement.setString(5, listOnlineOrders.get(i)
                             .getListOfProducts().get(j)
                             .getProduct_code());
-                    System.out.println("squery" + preparedStatement.toString());
                     preparedStatement.executeUpdate();
                 }
             }
@@ -234,7 +233,6 @@ public class ConnectComponent {
 
         try (PreparedStatement preparedStatement = connection.
                 prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-            System.out.println("preparestatement: " + preparedStatement);
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -290,7 +288,6 @@ public class ConnectComponent {
 
         try (PreparedStatement preparedStatement = connection.
                 prepareStatement(String.valueOf(query));) {
-            System.out.println("preparetStatement: " + preparedStatement);
             preparedStatement.executeUpdate();
             }
     }

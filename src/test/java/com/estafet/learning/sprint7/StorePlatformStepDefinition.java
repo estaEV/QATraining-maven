@@ -363,8 +363,6 @@ public class StorePlatformStepDefinition {
 
             ordersList.add(obj);
             randData.setOnlineOrderList(ordersList);
-            insert++;
-            System.out.println("call insert:" + insert);
             comp.insertOnlineOrdersData(tablesToWorkWith, randData);
         }
     }
