@@ -30,7 +30,7 @@ Feature: General operations using the DB
       | products      | product      | 80016     |
 
 
-  @functions
+  @functions @special
   Scenario: Get orders for a specific customer
     Given Table online_orders is created
     When A search for all orders of a specific customer is performed
