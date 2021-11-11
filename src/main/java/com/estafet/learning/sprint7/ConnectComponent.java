@@ -171,8 +171,7 @@ public class ConnectComponent {
 
             listOnlineOrders.get(i);
 
-            int numbersOfSubjectsStudied = listOnlineOrders.get(i).getListOfProducts().size();
-
+            int numbersOfProductsInOrder = listOnlineOrders.get(i).getListOfProducts().size();
 
             for (int j = 0; j < listOnlineOrders.get(i).getListOfProducts().size(); j++) {
                 String strQuery =
